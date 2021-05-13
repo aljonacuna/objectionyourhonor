@@ -1,0 +1,90 @@
+<script type="text/javascript">
+	class Person {
+		constructor(name, age) {
+			this.name = name;
+			this.age = age;
+		}
+	}
+
+	class Prosecutor extends Person {
+		constructor(name, age){
+			super(name, age);
+			this.name = name;
+		}
+		prosecute(defendant, case_1) {
+			this.title = case_1.title;
+			this.years = case_1.years;
+			this.months = case_1.months; 
+			this.days = case_1.days;
+			this.minAge = case_1.minAge;
+			this.maxAge = case_1.maxAge;
+			this.release = case_1.release;
+		}
+	}
+
+	class Defendant extends Person {
+		constructor(name, age){
+			super(name, age);
+			let defendant = {
+				name: name,
+				age : age
+			};
+			return defendant;
+		}
+	}
+
+	class Case {
+		constructor(title, years, months, days, minAge, maxAge) {
+			this.title = title;
+			this.years = years;
+			this.months = months; 
+			this.days = days;
+			this.minAge = minAge;
+			this.maxAge = maxAge;
+			this.release = this.computeReleaseDate();
+		}
+		computeReleaseDate() {
+			var date = new Date();
+		    var year = date.getFullYear();
+		    var month = date.getMonth();
+		    var day = date.getDate();
+		    return new Date(year+this.years , month+this.months , day+this.days);
+		}
+	}
+
+	class TrialCourt {
+		initiateTrial(defendant, prosecutor){
+			this.getVerdict(prosecutor.maxAge, 
+				prosecutor.minAge, defendant.age, defendant.name,
+				prosecutor.title, prosecutor.name, prosecutor.release);
+		}
+		getVerdict(maxAge, minAge, defendant_age, defendant_name, case_title , prosecutor_name ,release) {
+			if (maxAge > defendant_age && minAge < defendant_age) {
+				console.log("Name: ", defendant_name,"\n",
+							"Age: ",defendant_age,"\n",
+							"Case Title: ",case_title,"\n",
+							"Filed by: ",prosecutor_name,"\n",
+							"Verdict:  Guilty","\n",
+							"Release", release);
+			}
+			else{
+				console.log("Name: ", defendant_name,"\n",
+							"Age: ",defendant_age,"\n",
+							"Case Title: ",case_title,"\n",
+							"Filed by: ",prosecutor_name,"\n",
+							"Verdict:  Not Guilty");
+			}
+		}
+	}
+
+	let case_1 = new Case("Malicious Mischief", 3, 3, 3, 18, 75);
+	let prosecutor = new Prosecutor ("Dupong", 55);
+	let defendant1 = new Defendant ("Chupol", 50);
+	prosecutor.prosecute(defendant1, case_1);
+	let trial_court = new TrialCourt();
+	trial_court.initiateTrial(defendant1, prosecutor);
+	let defendant2 = new Defendant ("Rudy", 15);
+	prosecutor.prosecute(defendant2, case_1);
+	trial_court.initiateTrial(defendant2, prosecutor);
+
+</script>
